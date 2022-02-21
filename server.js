@@ -2,13 +2,17 @@
 const express = require('express')
 const app = express()
 
-// Start an app server
-const argv = minimist(process.argv.slice(2))
-argv['port']
-const port = argv.port || 5000
+// Get Port
+const args = require("minimist")(process.argv.slice(2))
+args["port"]
+if (args.port == undefined) { 
+    args.port = 5000 
+}
+var port = args.port
 
+// Start an app server
 const server = app.listen(port, () => {
-    console.log('App listening on port %PORT%'.replace('%PORT%',HTTP_PORT))
+    console.log('App listening on port %PORT%'.replace('%PORT%',port))
 });
 
 // Default response for any other request
