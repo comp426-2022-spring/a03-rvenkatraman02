@@ -15,6 +15,16 @@ const server = app.listen(port, () => {
     console.log('App listening on port %PORT%'.replace('%PORT%',port))
 });
 
+function coinFlip() {
+    let flip = Math.floor(Math.random() * 2);
+    if (flip < 1) {
+      return "tails";
+    }
+    else if (flip >= 1) {
+      return "heads";
+    }
+  }
+
 // Default response for any other request
 app.use(function(req,res){
     res.status(404).send('404 NOT FOUND')
@@ -38,5 +48,13 @@ app.get('/app/flips/:number', (req, res) => {
 	//here
 });
 
+app.get('/app/flip', (req,res) => {
+    res.status(200).json({'flip' : coinFlip()})
+})
+
+app.use(function(req,res) {
+    res.status(404).end('Endpoint does not exist')
+    res.type('text/plain')
+})
 
 
