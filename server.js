@@ -1,16 +1,16 @@
 // Require Express.js
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
 
 // Get Port
-const args = require("minimist")(process.argv.slice(2))
+const args = require("minimist")(process.argv.slice(2));
 
-const port = args.port || 5000
+const port = args.port || 5000;
 
 // Start an app server
 const server = app.listen(port, () => {
-    console.log('App listening on port %PORT%'.replace('%PORT%',port))
-})
+    console.log('App listening on port %PORT%'.replace('%PORT%',port));
+});
 
 function coinFlip() {
     let flip = Math.floor(Math.random() * 2);
@@ -60,8 +60,8 @@ function flipACoin(call) {
 
 // Default response for any other request
 app.use(function(req,res){
-    res.status(404).send('404 NOT FOUND')
-})
+    res.status(404).send('404 NOT FOUND');
+});
 
 app.get('/app/', (req,res) => {
     // Respond with status 200
@@ -69,20 +69,20 @@ app.get('/app/', (req,res) => {
     // Respond with status message "OK"
         res.statusMessage = 'OK';
         res.writeHead(res.statusCode, {'Content-Type' : 'text/plain'});
-        res.end(res.statusCode+ ' ' +res.statusMessage)
-})
+        res.end(res.statusCode+ ' ' +res.statusMessage);
+});
 
 // Endpoint definition
 app.get('/app/flip', (req,res) => {
-    res.contentType('text/json')
-    res.status(200).json({'flip' : coinFlip()})
+    res.contentType('text/json');
+    res.status(200).json({'flip' : coinFlip()});
 });
 
 app.get('/app/flips/:number', (req, res) => {
-    res.contentType('text/json')
-    const flips = coinFlips(req.params.number)
-    const count = countFlips(flips)
-    res.status(200).json({'raw':flips,'summary' : count})
+    res.contentType('text/json');
+    const flips = coinFlips(req.params.number);
+    const count = countFlips(flips);
+    res.status(200).json({'raw':flips,'summary' : count});
 });
 
 app.get('/app/flip/call/heads', (req,res) => {
