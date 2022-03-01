@@ -1,18 +1,18 @@
 // Require Express.js
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
 
 // Get Port
 const args = require("minimist")(process.argv.slice(2))
 args["port"]
 if (args.port == undefined) { 
-    args.port = 5000 
+    args.port = 5000;
 }
-var port = args.port
+var port = args.port;
 
 // Start an app server
 const server = app.listen(port, () => {
-    console.log('App listening on port %PORT%'.replace('%PORT%',port))
+    console.log('App listening on port %PORT%'.replace('%PORT%',port));
 });
 
 function coinFlip() {
@@ -63,7 +63,7 @@ function flipACoin(call) {
 
 // Default response for any other request
 app.use(function(req,res){
-    res.status(404).send('404 NOT FOUND')
+    res.status(404).send('404 NOT FOUND');
 });
 
 app.get('/app/', (req,res) => {
@@ -72,22 +72,25 @@ app.get('/app/', (req,res) => {
     // Respond with status message "OK"
         res.statusMessage = 'OK';
         res.writeHead(res.statusCode, {'Content-Type' : 'text/plain'});
-        res.end(res.statusCode+ ' ' +res.statusMessage)
+        res.end(res.statusCode+ ' ' +res.statusMessage);
 });
 
 // Endpoint definition
+app.get('/app/flip', (req,res) => {
+    res.contentType('text/json');
+    res.status(200).json({'flip' : coinFlip.coinFlip()});
+})
+
 app.get('/app/flips/:number', (req, res) => {
-    var array = coinFlips(req.params["number"])
-    res.status(200).json({"raw": array, "summary" : {"tails" : countFlips(array).tails, "heads" : countFlips(array).heads}})
+    var array = coinFlips(req.params["number"]);
+    res.status(200).json({"raw": array, "summary" : {"tails" : countFlips(array).tails, "heads" : countFlips(array).heads}});
 });
 
 app.get('/app/flip/call/:this_call', (req,res) => {
-    res.status(200).json(flipACoin(req.params["this_call"]))
+    res.status(200).json(flipACoin(req.params["this_call"]));
 })
 
 app.use(function(req,res) {
-    res.status(404).end('Endpoint does not exist')
-    res.type('text/plain')
+    res.status(404).end('Endpoint does not exist');
+    res.type('text/plain');
 })
-
-
