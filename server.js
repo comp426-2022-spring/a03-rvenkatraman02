@@ -1,14 +1,11 @@
 // Require Express.js
-const express = require('express');
-const app = express();
+const express = require('express')
+const app = express()
 
 // Get Port
 const args = require("minimist")(process.argv.slice(2))
-args["port"]
-if (args.port == undefined) { 
-    args.port = 5000;
-}
-var port = args.port;
+
+const port = args.port || 5000
 
 // Start an app server
 const server = app.listen(port, () => {
