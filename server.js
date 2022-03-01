@@ -79,18 +79,26 @@ app.get('/app/', (req,res) => {
 app.get('/app/flip', (req,res) => {
     res.contentType('text/json');
     res.status(200).json({'flip' : coinFlip.coinFlip()});
-})
-
-app.get('/app/flips/:number', (req, res) => {
-    var array = coinFlips(req.params["number"]);
-    res.status(200).json({"raw": array, "summary" : {"tails" : countFlips(array).tails, "heads" : countFlips(array).heads}});
 });
 
-app.get('/app/flip/call/:this_call', (req,res) => {
-    res.status(200).json(flipACoin(req.params["this_call"]));
-})
+app.get('/app/flips/:number', (req, res) => {
+    res.contentType('text/json');
+    const flips = coin.coinFlips(req.params.number);
+    const count = coin.countFlips(flips);
+    res.status(200).json({'raw':flips,'summary' : count});
+});
+
+app.get('/app/flip/call/heads', (req,res) => {
+    res.contentType('text/json');
+    res.status(200).json(coin.flipACoin('heads'));
+});
+
+app.get('/app/flip/call/tails', (req,res) => {
+    res.contentType('text/json');
+    res.status(200).json(coin.flipACoin('tails'));
+});
 
 app.use(function(req,res) {
     res.status(404).end('Endpoint does not exist');
     res.type('text/plain');
-})
+});
